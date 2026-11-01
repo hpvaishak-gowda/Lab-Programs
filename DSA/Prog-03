@@ -1,0 +1,288 @@
+PROGRAM 3: Parcel Storage System 
+A courier office needs a simple Parcel Storage System to manage parcels efficiently. 
+Each 
+parcel is assigned an integer ID for identification. Design a C program that supports the 
+following operations: 
+a. push() – Add a parcel ID onto the stack when a new parcel arrives. 
+b. pop() – Remove the last parcel ID from the stack when a parcel is taken out. 
+c. display() – Show all parcel IDs currently stored in the stack. 
+d. Display suitable messages when the stack is full (overflow) or empty (underflow).
+
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int *stack;
+int top = -1;
+int size;
+
+void push(int parcelID);
+void pop(void);
+void display(void);
+
+int main()
+{
+    int choice, parcelID;
+
+    printf("Enter number of parcels: ");
+    scanf("%d", &size);
+
+    stack = (int *)malloc(sizeof(int) * size);
+
+    if (stack == NULL)
+    {
+        printf("Memory allocation failed!\n");
+        return 1;
+    }
+
+    while (1)
+    {
+        printf("\n--- Parcel Storage System ---\n");
+        printf("1. Add Parcel (Push)\n");
+        printf("2. Remove Parcel (Pop)\n");
+        printf("3. Display Parcels\n");
+        printf("4. Exit\n");
+
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice)
+        {
+            case 1:
+                printf("Enter Parcel ID to add: ");
+                scanf("%d", &parcelID);
+                push(parcelID);
+                break;
+
+            case 2:
+                pop();
+                break;
+
+            case 3:
+                display();
+                break;
+
+            case 4:
+                free(stack);
+                exit(0);
+
+            default:
+                printf("Invalid choice!\n");
+        }
+    }
+
+    return 0;
+}
+
+void push(int parcelID)
+{
+    if (top == size - 1)
+        printf("Stack Overflow\n");
+    else
+    {
+        top++;
+        stack[top] = parcelID;
+    }
+}
+
+void pop(void)
+{
+    if (top == -1)
+        printf("Stack Underflow!\n");
+    else
+    {
+        printf("Parcel ID %d removed from stack\n", stack[top]);
+        top--;
+    }
+}
+
+void display(void)
+{
+    if (top == -1)
+        printf("Stack is empty\n");
+    else
+    {
+        printf("Parcels currently in storage:\n");
+
+        for (int i = top; i >= 0; i--)
+            printf("Parcel ID: %d\n", stack[i]);
+    }
+}
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------
+#include <stdio.h> 
+#define MAX 10 
+int stack[MAX], top = -1; 
+void push() { 
+if (top >= MAX - 1) { printf("Stack Overflow! Storage full.\n"); return; } 
+int id; printf("Enter Parcel ID: "); scanf("%d", &id); 
+printf("Parcel %d added!\n", stack[++top] = id); 
+} 
+void pop() { 
+printf(top < 0 ? "Stack Underflow! Storage empty.\n" : "Parcel %d removed!\n", 
+stack[top--]); 
+} 
+void display() { 
+if (top < 0) { printf("Storage empty.\n"); return; } 
+printf("\nParcels (%d total):\n", top + 1); 
+for (int i = top; i >= 0; i--) printf("%s%d\n", i == top ? "-> " : "   ", stack[i]); 
+} 
+int main() { 
+int choice; 
+printf("=== PARCEL STORAGE SYSTEM ===\n"); 
+while (1) { 
+printf("\n1.Add 2.Remove 3.Display 4.Status 5.Exit\nChoice: "); 
+scanf("%d", &choice); 
+switch (choice) { 
+case 1: push(); break; 
+case 2: pop(); break; 
+case 3: display(); break; 
+case 4: printf("\nCapacity: %d | Current: %d | Available: %d\nStatus: %s\n",  
+MAX, top + 1, MAX - top - 1,  
+top >= MAX - 1 ? "FULL" : top < 0 ? "EMPTY" : "AVAILABLE"); 
+break; 
+case 5: printf("Goodbye!\n"); return 0; 
+30 
+Dept of CSE (AI & ML), RNSIT 
+Data Structure and Application Lab (BCSL305) 
+default: printf("Invalid choice!\n"); 
+} 
+} 
+} 
+SAMPLE OUTPUT 
+=== PARCEL STORAGE SYSTEM === 
+1.Add 2.Remove 3.Display 4.Status 5.Exit 
+Choice: 4 
+Capacity: 10 | Current: 0 | Available: 10 
+Status: EMPTY 
+1.Add 2.Remove 3.Display 4.Status 5.Exit 
+Choice: 1 
+Enter Parcel ID: 101 
+Parcel 101 added! 
+1.Add 2.Remove 3.Display 4.Status 5.Exit 
+Choice: 1 
+Enter Parcel ID: 205 
+Parcel 205 added! 
+1.Add 2.Remove 3.Display 4.Status 5.Exit 
+Choice: 1 
+Enter Parcel ID: 350 
+Parcel 350 added! 
+1.Add 2.Remove 3.Display 4.Status 5.Exit 
+Choice: 3 
+Parcels (3 total): -> 350 
+205 
+101 
+1.Add 2.Remove 3.Display 4.Status 5.Exit 
+Choice: 4 
+Capacity: 10 | Current: 3 | Available: 7 
+Status: AVAILABLE 
+1.Add 2.Remove 3.Display 4.Status 5.Exit 
+Choice: 2 
+Parcel 350 removed! 
+1.Add 2.Remove 3.Display 4.Status 5.Exit 
+31 
+Dept of CSE (AI & ML), RNSIT 
+Data Structure and Application Lab (BCSL305) 
+Choice: 3 
+Parcels (2 total): -> 205 
+101 
+1.Add 2.Remove 3.Display 4.Status 5.Exit 
+Choice: 2 
+Parcel 205 removed! 
+1.Add 2.Remove 3.Display 4.Status 5.Exit 
+Choice: 2 
+Parcel 101 removed! 
+1.Add 2.Remove 3.Display 4.Status 5.Exit 
+Choice: 2 
+Stack Underflow! Storage empty. 
+1.Add 2.Remove 3.Display 4.Status 5.Exit 
+Choice: 3 
+Storage empty. 
+1.Add 2.Remove 3.Display 4.Status 5.Exit 
+Choice: 1 
+Enter Parcel ID: 999 
+Parcel 999 added! 
+1.Add 2.Remove 3.Display 4.Status 5.Exit 
+Choice: 1 
+Enter Parcel ID: 888 
+Parcel 888 added! 
+1.Add 2.Remove 3.Display 4.Status 5.Exit 
+Choice: 1 
+Enter Parcel ID: 777 
+Parcel 777 added! 
+1.Add 2.Remove 3.Display 4.Status 5.Exit 
+Choice: 1 
+Enter Parcel ID: 666 
+Parcel 666 added! 
+1.Add 2.Remove 3.Display 4.Status 5.Exit 
+Choice: 1 
+Enter Parcel ID: 555 
+Parcel 555 added! 
+32 
+Dept of CSE (AI & ML), RNSIT 
+     Data Structure and Application Lab (BCSL305) 
+ 
+33 
+Dept of CSE (AI & ML), RNSIT 
+1.Add 2.Remove 3.Display 4.Status 5.Exit 
+Choice: 1 
+Enter Parcel ID: 444 
+Parcel 444 added! 
+ 
+1.Add 2.Remove 3.Display 4.Status 5.Exit 
+Choice: 1 
+Enter Parcel ID: 333 
+Parcel 333 added! 
+ 
+1.Add 2.Remove 3.Display 4.Status 5.Exit 
+Choice: 1 
+Enter Parcel ID: 222 
+Parcel 222 added! 
+ 
+1.Add 2.Remove 3.Display 4.Status 5.Exit 
+Choice: 1 
+Enter Parcel ID: 111 
+Parcel 111 added! 
+ 
+1.Add 2.Remove 3.Display 4.Status 5.Exit 
+Choice: 1 
+Enter Parcel ID: 100 
+Parcel 100 added! 
+ 
+1.Add 2.Remove 3.Display 4.Status 5.Exit 
+Choice: 4 
+Capacity: 10 | Current: 10 | Available: 0 
+Status: FULL 
+ 
+1.Add 2.Remove 3.Display 4.Status 5.Exit 
+Choice: 1 
+Enter Parcel ID: 50 
+Stack Overflow! Storage full. 
+ 
+1.Add 2.Remove 3.Display 4.Status 5.Exit 
+Choice: 3 
+ 
+Parcels (10 total): -> 100 
+   111 
+   222 
+   333 
+   444 
+   555 
+   666 
+   777 
+     Data Structure and Application Lab (BCSL305) 
+ 
+34 
+Dept of CSE (AI & ML), RNSIT 
+   888 
+   999 
+ 
+1.Add 2.Remove 3.Display 4.Status 5.Exit 
+Choice: 6 
+Invalid choice! 
+ 
+1.Add 2.Remove 3.Display 4.Status 5.Exit 
+Choice: 5 
+Goodbye!
