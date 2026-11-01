@@ -1,2 +1,2 @@
 # Lab-Programs
-A collection of my college programs.
+A collection of my college lab programs.
