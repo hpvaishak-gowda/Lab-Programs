@@ -1,0 +1,112 @@
+PROGRAM 4: Calculator Application 
+In modern calculators, mathematical expressions are usually entered in infix notation, 
+where operators are written between operands (e.g., 3 + 4 * 2). However, calculators and 
+computer systems evaluate these expressions more efficiently in postfix notation, where 
+operators follow operands (e.g., 3 4 2 * +). 
+To simulate this process, develop a C program that converts any valid infix expression 
+into its equivalent postfix expression. The program should support alphanumeric 
+operands and the following operators: -, +, *, /, %, ^.
+
+
+#include <stdio.h>
+#include <ctype.h>
+#include <string.h>
+
+#define MAX 100
+
+char s[MAX];
+int top = -1;
+
+void push(char opr)
+{
+    if(top == MAX - 1 )
+    {
+        printf("Stack Overflow");
+        return;
+    }
+    s[++top] = opr;
+}
+
+char pop()
+{
+    if(top == -1)
+    {
+        printf("Stack Underflow");
+        return 0;
+    }
+    return s[top--];
+}
+
+int priority(char opr)
+{
+    if (opr == '(' || opr == '#')
+        return 1;
+
+    if (opr == '+' || opr == '-')
+        return 2;
+
+    if (opr == '*' || opr == '/' || opr == '%')
+        return 3;
+
+    if (opr == '^')
+        return 4;
+
+    return 0;
+}
+
+int main()
+{
+    char infix[100], postfix[100];
+    int i, j = 0;
+
+    printf("Enter valid INFIX expression:\n");
+    fgets(infix, sizeof(infix), stdin);
+
+    infix[strcspn(infix, "\n")] = '\0';
+
+    push('#');
+
+    for (i = 0; infix[i] != '\0'; i++)
+    {
+        if (isalnum((unsigned char)infix[i]))
+        {
+            postfix[j++] = infix[i];
+        }
+        else if (infix[i] == '(')
+        {
+            push('(');
+        }
+        else if (infix[i] == ')')
+        {
+            while (s[top] != '(')
+            {
+                postfix[j++] = pop();
+            }
+            pop();
+        }
+        else
+        {
+            while (s[top] != '#' &&
+                   priority(s[top]) >= priority(infix[i]))
+            {
+                postfix[j++] = pop();
+            }
+
+            push(infix[i]);
+        }
+    }
+
+    while (s[top] != '#')
+    {
+        postfix[j++] = pop();
+    }
+
+    postfix[j] = '\0';
+
+    printf("INFIX EXPRESSION = %s\n", infix);
+    printf("POSTFIX EXPRESSION = %s\n", postfix);
+
+    return 0;
+}
+
+---------------------------------------------------------------------------------
