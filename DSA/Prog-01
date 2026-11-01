@@ -1,0 +1,110 @@
+PROGRAM 1:  Weekly Planner
+A student needs a simple Weekly Planner System to keep track of their weekly schedule. For each day, the planner should store: name of the day (e.g., Monday, Tuesday…), date of the day (numeric format) and the activity planned for that day (e.g., class, event, meeting). Develop a C program to implement this weekly planner using the following functions.
+a. create() to initialize the weekly planner.
+b. read() to input the details (day name, date, activity) from the user.
+c. display() to generate and print the Weekly Activity Report on screen.
+
+#include <stdio.h>
+
+char days[7][12] = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+
+typedef struct Dt
+{ int dd, mm, yy;} Date;
+
+struct Day {
+    char day[12];
+    Date date;  // nested structure
+    char activity[50];
+} planner[7];
+
+void read() {
+    printf("\n--- Enter Weekly Schedule ---\n");
+    for (int i = 0; i < 7; i++) {
+        printf("\n%s - Enter date: (dd/mm/yyyy)", days[i]);
+        scanf("%d/%d/%d", &planner[i].date.dd, &planner[i].date.mm, &planner[i].date.yy );
+       getchar();
+        printf("Activity: ");
+        scanf(" %[^\n]", planner[i].activity); 
+    }
+    printf("Schedule saved!\n");
+}
+
+void display() {
+    printf("\n========== WEEKLY REPORT ==========\n");
+    printf("%-12s %-6s %s\n", "Day", "Date", "Activity");
+    printf("===================================\n");
+    for (int i = 0; i < 7; i++) {
+        printf("%-12s %d/%d/%d %s\n", days[i], 
+               planner[i].date.dd, planner[i].date.mm, planner[i].date.yy,
+               planner[i].activity);
+    }
+    printf("===================================\n");
+}
+
+int main() {
+    int choice;
+    printf("=== WEEKLY PLANNER ===\n");
+    
+    while (1) {
+        printf("\n1.Enter Schedule 2.Display Report 3.Exit\nChoice: ");
+        scanf("%d", &choice);
+        switch (choice) {
+            case 1: read(); break;
+            case 2: display(); break;
+            case 3: printf("Goodbye!\n"); return 0;
+            default: printf("Invalid choice!\n");
+        }
+    }
+}
+
+
+SAMPLE OUTPUT
+
+=== WEEKLY PLANNER ===
+
+1.Enter Schedule 2.Display Report 3.Exit
+Choice: 1
+
+--- Enter Weekly Schedule ---
+
+Monday - Enter date: (dd/mm/yyyy) 15/10/2025
+Activity: Mathematics Class
+
+Tuesday - Enter date: (dd/mm/yyyy) 16/10/2025
+Activity: Physics Lab
+
+Wednesday - Enter date: (dd/mm/yyyy) 17/10/2025
+Activity: Library Study
+
+Thursday - Enter date: (dd/mm/yyyy) 18/10/2025
+Activity: Project Meeting
+
+Friday - Enter date: (dd/mm/yyyy) 19/10/2025
+Activity: Computer Practical
+
+Saturday - Enter date: (dd/mm/yyyy) 20/10/2025
+Activity: Weekend Shopping
+
+Sunday - Enter date: (dd/mm/yyyy) 21/10/2025
+Activity: Family Time
+
+Schedule saved!
+
+1.Enter Schedule 2.Display Report 3.Exit
+Choice: 2
+========== WEEKLY REPORT ==========
+Day          	Date   		Activity
+===================================
+Monday         	15/10/2025 	Mathematics Class
+Tuesday         	16/10/2025 	Physics Lab
+Wednesday    	17/10/2025 	Library Study
+Thursday     	18/10/2025 	Project Meeting
+Friday       	19/10/2025 	Computer Practical
+Saturday     	20/10/2025 	Weekend Shopping
+Sunday       	21/10/2025 	Family Time
+===================================
+
+1.Enter Schedule 2.Display Report 3.Exit
+Choice: Goodbye!
+
+
