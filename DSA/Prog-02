@@ -1,0 +1,80 @@
+PROGRAM 2: Pattern Matching
+
+A publishing company is developing a simple tool to edit documents by replacing certain words or phrases. Design a C program that performs find-and-replace operations on text without using built-in string functions.
+
+a. Read a main string (STR), a pattern string (PAT), and a replacement string (REP) from the user.
+
+b. Search the main string for all occurrences of PAT.
+
+c. Replace every occurrence of PAT in STR with REP.
+
+d. If PAT does not exist in STR, display an appropriate message.
+
+
+
+#include <stdio.h> 
+#include <string.h>
+int slen(char *);
+void replace(char *, char *, char *, char *);
+
+int main()
+{
+    char T[100]; // Main string 
+    char P[50];	// Pattern to search
+    char REP[50]; // Replacement string
+    char FIN[200]; // Final string after replacement
+
+
+    printf("Enter Main string: ");
+    scanf("%[^\n]", T); // For spaces, you could use fgets(T, sizeof(T), stdin);
+
+
+    printf("Enter Pattern string: "); 
+    scanf("%s", P);
+
+    printf("Enter Replacement string: "); 
+    scanf("%s", REP);
+
+    replace(T, P, REP, FIN); 
+    printf("Output: %s\n", FIN);
+
+    return 0;
+}
+
+// Function to calculate string length 
+int slen(char *s)
+{
+    int len = 0;
+    while (s[len] != '\0') 
+        len++;
+    return len;
+}
+
+
+// Function to replace all occurrences of P with REP in T and store in FIN 
+void replace(char *T, char *P, char *REP, char *FIN)
+{
+    int k = 0, s = slen(T), r = slen(P), q = 0, e, z; 
+    int repLen = slen(REP);
+    while (k < s)
+    {
+// Check if pattern matches at current position 
+        for (e = 0; e < r; e++)
+        {
+            if (T[k + e] != P[e]) 
+                break;
+        }
+        if (e == r) // Pattern found
+        {
+            for (z = 0; z < repLen; z++) 
+                FIN[q++] = REP[z];
+                k += r;
+        }
+        else // No match, copy current character
+        {
+            FIN[q++] = T[k++];
+        }
+    }
+
+    FIN[q] = '\0'; // Null terminate final string
+}
